@@ -1,9 +1,9 @@
 // Copyright (c) Tailscale Inc & contributors
 // SPDX-License-Identifier: BSD-3-Clause
 
-//go:build cgo || !darwin
+//go:build windows
 
-// systray is a minimal Tailscale systray application.
+// win-gui is a minimal Windows GUI wrapper around the local Tailscale daemon.
 package main
 
 import (
@@ -15,7 +15,7 @@ import (
 )
 
 var socket = flag.String("socket", paths.DefaultTailscaledSocket(), "path to tailscaled socket")
-var appName = flag.String("app-name", "tailscale", "application name used by the desktop shell")
+var appName = flag.String("app-name", "MyScale", "application name shown in the Windows notification area")
 
 func main() {
 	flag.Parse()
