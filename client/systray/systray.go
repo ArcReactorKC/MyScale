@@ -76,6 +76,10 @@ func (menu *Menu) Run(client *local.Client) {
 type Menu struct {
 	mu sync.Mutex // protects the entire Menu
 
+	// AppName is the name shown by the host OS for this systray app.
+	// If empty, it defaults to "tailscale".
+	AppName string
+
 	lc          *local.Client
 	status      *ipnstate.Status
 	curProfile  ipn.LoginProfile
@@ -174,7 +178,11 @@ See https://tailscale.com/kb/1597/linux-systray for more information.`)
 
 	// set initial title, which is used by the systray package as the ID of the StatusNotifierItem.
 	// This value will get overwritten later as the client status changes.
-	systray.SetTitle("tailscale")
+	appName := strings.TrimSpace(menu.AppName)
+	if appName == "" {
+		appName = "tailscale"
+	}
+	systray.SetTitle(appName)
 
 	menu.rebuild()
 
